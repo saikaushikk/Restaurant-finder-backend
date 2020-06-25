@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2020_06_23_114301) do
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "username"
     t.string "password_digest"
-    t.string "phone_number"
+    t.string "phone_number", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

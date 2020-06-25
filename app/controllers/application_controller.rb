@@ -1,8 +1,8 @@
+require "keys"
 class ApplicationController < ActionController::API
     before_action :authorized
-
   def encode_token(payload)
-    JWT.encode(payload, 'xdaujsQ2asdQj19$#ijasd')
+    JWT.encode(payload, Keys.getKey)
   end
 
   def auth_header
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::API
       token = auth_header.split(' ')[1]
       # header: { 'Authorization': 'Bearer <token>' }
       begin
-        JWT.decode(token, 'xdaujsQ2asdQj19$#ijasd', true, algorithm: 'HS256')
+        JWT.decode(token, Keys.getKey, true, algorithm: Keys.getAlgo)
       rescue JWT::DecodeError
         nil
       end
@@ -26,14 +26,16 @@ class ApplicationController < ActionController::API
     if decoded_token
       user_id = decoded_token[0]['user_id']
       @user = User.find_by(id: user_id)
+    else
+      nil
     end
   end
 
   def logged_in?
     !!logged_in_user
   end
-
+  
   def authorized
-    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+      render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
   end
 end

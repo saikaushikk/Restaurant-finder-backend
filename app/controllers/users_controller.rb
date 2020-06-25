@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authorized, only: [:auto_login]
+     before_action :authorized, only: [:profile]
 
     # REGISTER
     def create
@@ -8,10 +8,10 @@ class UsersController < ApplicationController
         token = encode_token({user_id: @user.id})
         render json: {user: @user, token: token}
       else
-        render json: {error: "Invalid username or password"}
+        render json: {error: "Invalid user credentials"}, status: 400
       end
     end
-  
+    
     # LOGGING IN
     def login
       @user = User.find_by(username: params[:username]) || User.find_by(phone_number: params[:phone_number])
@@ -20,29 +20,23 @@ class UsersController < ApplicationController
         token = encode_token({user_id: @user.id})
         render json: {user: @user, token: token}
       else
-        render json: {error: "Invalid username or password"}
+        render json: {error: "Invalid username or password"}, status: 401
       end
     end
-  
+    # DELETE A USER GIVEN ID
     def delete
       @user = User.find_by(id: params[:id])
       if @user && @user.destroy
         render json: {status: "ok"}
       else
-        render json: {status: "invalid id or user does not exist"}
+        render json: {status: "invalid id or user does not exist"}, status: 400
       end
     end
-
+    #SHOW USER DETAILS GIVEN AUTH TOKEN 
+    #{"Authorization": "Bearer <token>"}
     def profile
-      @user = User.find_by(id: params[:id])
-      if @user
-        render json: {user: @user}
-      else
-        render json: {status: "invalid id or user does not exist"}
-      end
-      
+        render json: logged_in_user
     end
-
     private
   
     def user_params
