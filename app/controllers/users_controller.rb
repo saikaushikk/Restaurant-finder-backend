@@ -25,11 +25,11 @@ class UsersController < ApplicationController
     end
     # DELETE A USER GIVEN ID
     def delete
-      @user = User.find_by(id: params[:id])
-      if @user && @user.destroy
+      # @user = User.find_by(id: params[:id])
+      if logged_in_user && logged_in_user.destroy
         render json: {status: "ok"}
       else
-        render json: {status: "invalid id or user does not exist"}, status: 400
+        render json: {status: "please log in"}, status: 400
       end
     end
     #SHOW USER DETAILS GIVEN AUTH TOKEN 
