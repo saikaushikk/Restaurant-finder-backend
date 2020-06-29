@@ -1,7 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  username: asdaasasdij
-  password_digest: sijdijsdA12A@
-  phone_number: 0987654321
+  username: MyString
+  password_digest: MyString
+  phone_number: MyString
 
+two:
+  username: MyString
+  password_digest: MyString
+  phone_number: MyString
