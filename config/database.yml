@@ -16,7 +16,16 @@ development:
   password: root
   host: localhost
   # socket: /opt/local/var/run/mysql5/mysqld.sock
-# test:
+test:
+  development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: Userapi
+  pool: 5
+  username: root
+  password: root
+  host: localhost
 #   adapter: mysql
 #   encoding: utf8
 #   reconnect: false
