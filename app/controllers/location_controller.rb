@@ -1,36 +1,43 @@
 class LocationController < ApplicationController
     #Create location
     def create
-        @location = Location.create(user_params)
-        if logged_in_user && @location.valid?
-          render json: {location: @location}
-        else
+        @location = Location.create(location_params)
+        if !logged_in_user
           @location.destroy
-          render json: {error: "Invalid location credentials or invalid token"}, status: 401
+          render json: {error: "Invalid token"}, status: 401
+        elsif !@location.valid?
+          render json: {error: "Invalid location credentials"}, status: 400
+        else
+         render json: {location: @location}
         end
     end
     #Delete a location
     def delete
         @location = Location.find_by(id: params[:id])
-        if logged_in_user && @location && @location.destroy
-          render json: {status: "ok"}
+        if !logged_in_user
+          render json: {error: "Invalid token" }, status: 401
+        elsif !@location
+          render json: {error: "location id does not exist" }, status: 400
         else
-          render json: {status: "invalid token or location id does not exist"}, status: 401
+          @location.destroy
+         render json: {status: "ok"}
         end
     end
+    #show a location given id
     def show
         @location = Location.find_by(id: params[:id])
         if @location
-          render json: {location: @location}
+          render json: { id: @location.id, name: @location.name, latitude: @location.latitude, longtitude: @location.longtitude }
         else
           render json: {status: "location id does not exist"}, status: 400
         end
     end
+    #list all available locations
     def list
         locations = Location.select(:id, :name, :latitude, :longtitude)
         render json: {locations: locations}
     end
-    def user_params
+    def location_params
         params.permit(:name, :latitude, :longtitude)
     end
 end
