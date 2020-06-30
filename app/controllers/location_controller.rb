@@ -1,11 +1,12 @@
 class LocationController < ApplicationController
     #Create location
     def create
-        @location = Location.create(location_params)
         if !logged_in_user
-          @location.destroy
           render json: {error: "Invalid token"}, status: 401
-        elsif !@location.valid?
+          return
+        end
+        @location = Location.create(location_params)
+        if !@location.valid?
           render json: {error: "Invalid location credentials"}, status: 400
         else
          render json: {location: @location}
@@ -13,10 +14,12 @@ class LocationController < ApplicationController
     end
     #Delete a location
     def delete
-        @location = Location.find_by(id: params[:id])
         if !logged_in_user
           render json: {error: "Invalid token" }, status: 401
-        elsif !@location
+          return
+        end
+        @location = Location.find_by(id: params[:id])
+        if !@location
           render json: {error: "location id does not exist" }, status: 400
         else
           @location.destroy
