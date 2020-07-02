@@ -54,3 +54,4 @@ gem 'mysql2'
 gem 'bcrypt'
 gem 'rack-cors'
 gem 'jwt'
+gem "validate_url"
