@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   post "locations/delete" => "location#delete"
   get "locations/show" => "location#show"
   get "locations/list" => "location#list"
-  post "restaurants/create" => "restaurantms#create"
-  post "restaurants/delete" => "restaurantms#delete"
-  get "restaurants/get" => "restaurantms#get"
-  get "restaurants/list" => "restaurantms#list"
+  post "restaurants/create" => "restaurants#create"
+  post "restaurants/delete" => "restaurants#delete"
+  get "restaurants/get" => "restaurants#get"
+  get "restaurants/list" => "restaurants#list"
 end

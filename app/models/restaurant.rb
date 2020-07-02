@@ -1,4 +1,4 @@
-class Restaurantm < ApplicationRecord
+class Restaurant < ApplicationRecord
     # belongs_to :location
     validates:name, presence: true, uniqueness: true
     validates:locations_id, presence: true

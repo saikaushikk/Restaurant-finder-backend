@@ -1,11 +1,11 @@
-class RestaurantmsController < ApplicationController
+class RestaurantsController < ApplicationController
     #Create a new restaurant
     def create
         if !logged_in_user
             render json: {error: "Invalid token"}, status: 401
             return
         end
-        @restaurant = Restaurantm.create(restaurant_params)
+        @restaurant = Restaurant.create(restaurant_params)
         if !@restaurant.valid?
             render json: {error: "Invalid restaurant credentials"}, status: 400
         else
@@ -18,7 +18,7 @@ class RestaurantmsController < ApplicationController
           render json: {error: "Invalid token" }, status: 401
           return
         end
-        @restaurant = Restaurantm.find_by(id: params[:id])
+        @restaurant = Restaurant.find_by(id: params[:id])
         if !@restaurant
           render json: {error: "restaurant id does not exist" }, status: 400
         else
@@ -28,23 +28,23 @@ class RestaurantmsController < ApplicationController
     end
     #Get restaurant details given ID
     def get
-        @restaurant = Restaurantm.find_by(id: params[:id])
+        @restaurant = Restaurant.where(id: params[:id]).select( "id","name","locations_id","description", "image", "address").first
         if @restaurant
-          render json: { id: @restaurant.id, name: @restaurant.name, location_id: @restaurant.locations_id, description: @restaurant.description, image_url:@restaurant.image, address:@restaurant.address}
+            render json: { restaurant: @restaurant }
         else
-          render json: {error: "location id does not exist"}, status: 400
+          render json: {error: "restaurant id does not exist"}, status: 400
         end
     end
     #List all restaurants at a given location name
     def list
         @location = Location.find_by(name: params[:name])
         if @location
-            @restaurant = Restaurantm.where(locations_id: @location.id)
+            @restaurant = Restaurant.where(locations_id: @location.id).select( "id","name","locations_id","description", "image", "address")
             if @restaurant
                 render json: { restaurant: @restaurant }
             end
         else
-            render json: {error: "Invalid location name" }, status: 400
+            render json: { restaurant: [] }, status: 200
         end
     end
 

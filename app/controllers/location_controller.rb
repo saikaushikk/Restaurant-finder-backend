@@ -28,17 +28,17 @@ class LocationController < ApplicationController
     end
     #show a location given id
     def show
-        @location = Location.find_by(id: params[:id])
+        @location = Location.where(id: params[:id]).select("id", "name", "latitude", "longtitude").first
         if @location
-          render json: { id: @location.id, name: @location.name, latitude: @location.latitude, longtitude: @location.longtitude }
+          render json: { location: @location }
         else
           render json: {status: "location id does not exist"}, status: 400
         end
     end
     #list all available locations
     def list
-        locations = Location.select(:id, :name, :latitude, :longtitude)
-        render json: {locations: locations}
+        @locations = Location.select("id", "name", "latitude", "longtitude")
+        render json: {locations: @locations}
     end
     def location_params
         params.permit(:name, :latitude, :longtitude)
