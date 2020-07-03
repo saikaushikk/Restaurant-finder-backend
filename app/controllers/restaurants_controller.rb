@@ -28,7 +28,7 @@ class RestaurantsController < ApplicationController
     end
     #Get restaurant details given ID
     def get
-        @restaurant = Restaurant.where(id: params[:id]).select( "id","name","locations_id","description", "image", "address").first
+        @restaurant = Restaurant.where(id: params[:id]).select( "id","name","location_id","description", "image", "address").first
         if @restaurant
             render json: { restaurant: @restaurant }
         else
@@ -39,7 +39,7 @@ class RestaurantsController < ApplicationController
     def list
         @location = Location.find_by(name: params[:name])
         if @location
-            @restaurant = Restaurant.where(locations_id: @location.id).select( "id","name","locations_id","description", "image", "address")
+            @restaurant = Restaurant.where(location_id: @location.id).select( "id","name","location_id","description", "image", "address")
             if @restaurant
                 render json: { restaurant: @restaurant }
             end
@@ -49,6 +49,6 @@ class RestaurantsController < ApplicationController
     end
 
     def restaurant_params
-        params.permit(:locations_id, :name, :description, :image, :address)
+        params.permit(:location_id, :name, :description, :image, :address)
     end
 end

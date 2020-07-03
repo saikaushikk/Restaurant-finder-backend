@@ -2,14 +2,14 @@
 
 one:
   name: MyString
-  locations_id: MyString
+  location_id: MyString
   description: MyString
   image: MyString
   address: MyString
 
 two:
   name: MyString
-  locations_id: MyString
+  location_id: MyString
   description: MyString
   image: MyString
   address: MyString
