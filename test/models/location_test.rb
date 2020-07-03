@@ -1,11 +1,8 @@
 require 'test_helper'
 
 class LocationTest < ActiveSupport::TestCase
-  test "the truth" do
-    assert true
-  end
-  #latitude range -> -90 to -90
-  #longtitude range -> -180 to + 180
+   # latitude range -> -90 to -90
+  # longtitude range -> -180 to + 180
   test "the location gets created without a name" do
     location = Location.new
     location.latitude = "12.32"

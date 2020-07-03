@@ -12,7 +12,7 @@ class LocationController < ApplicationController
          render json: {location: @location}
         end
     end
-    #Delete a location
+    #Delete a location given id
     def delete
         if !logged_in_user
           render json: {error: "Invalid token" }, status: 401
