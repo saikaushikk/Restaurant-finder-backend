@@ -23,7 +23,7 @@ class UsersController < ApplicationController
         render json: {error: "Invalid username or password"}, status: 401
       end
     end
-    # DELETE A USER GIVEN ID
+    # DELETE A USER 
     def delete
       # @user = User.find_by(id: params[:id])
       if logged_in_user && logged_in_user.destroy

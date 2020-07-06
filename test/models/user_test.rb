@@ -5,8 +5,6 @@ class UserTest < ActiveSupport::TestCase
     user = User.new
     user.password_digest = "iauhdasd1A$a"
     user.phone_number = "9887654321"
-    puts user.password_digest
-    puts user.phone_number
     assert_not user.save, "Saved the user without username"
   end
   test "the user gets created without phonenumber" do
